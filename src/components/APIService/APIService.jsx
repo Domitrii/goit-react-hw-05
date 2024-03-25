@@ -9,36 +9,32 @@ export const fetchFilms = async () => {
                 Authorization: `Bearer ${API_basic}`
             }
         });
-        console.log(data)
         return data;
     }
 
 export const fetchFilmsId = async (filmId) =>{
-    const resp = await axios.get(`movie/${filmId}`, {
+    const {data} = await axios.get(`movie/${filmId}`, {
         headers: {
             Authorization: `Bearer ${API_basic}`
         }
     })
-    console.log(resp)
-    return resp
+    return data
 }
 
 export const fetchFilmCastId = async(castId) => {
-    const resp = await axios.get(`movie/${castId}/credits`, {
+    const {data} = await axios.get(`movie/${castId}/credits`, {
         headers: {
             Authorization: `Bearer ${API_basic}`
         }
     })
-    console.log(resp)
-    return resp
+    return data
 }
 
 export const fetchFilmReviews = async(revId) => {
-    const resp = await axios.get(`movie/${revId}/reviews`, {
+    const {data} = await axios.get(`movie/${revId}/reviews`, {
         headers: {
             Authorization: `Bearer ${API_basic}`
         }
     })
-    console.log(resp)
-    return resp
+    return data
 }
