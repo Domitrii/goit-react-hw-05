@@ -1,0 +1,22 @@
+.prifilePhoto{
+    object-fit: cover;
+    width: 100%;
+}
+
+.castItem{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #000;
+    width: 200px;
+}
+
+.paragraph{
+    display: flex;
+    justify-content: center;
+}
+
+.list{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+}

@@ -1,6 +1,10 @@
-import { useEffect, useRef, useState } from "react"
-import { Link, useLocation, useParams } from "react-router-dom"
+import { Suspense, lazy, useEffect, useRef, useState } from "react"
+import { Link, Route, Routes, useLocation, useParams } from "react-router-dom"
 import { fetchFilmsId } from "../../components/APIService/APIService"
+import Loader from "../../components/Loader/Loader"
+
+const MovieCast = lazy(() => import("../../components/MovieCast/MovieCast"));
+const MovieReviews = lazy(() => import("../../components/MovieReviews/MovieReviews"))
 
 function MovieDetailsPage() {
 const {filmId} = useParams()
@@ -9,54 +13,56 @@ const [film, setFilm] = useState(null)
 const [loading, setLoading] = useState(false)
 const [error, setError] = useState(false)
 const location = useLocation()
-const privLinkRef = useRef(location.state ?? '/movies')
+const privLinkRef = useRef(location.state ?? '/')
 
 useEffect(() => {
-    const getFilmById = async () => {
-        try{
-            const data = fetchFilmsId(filmId)
-            setFilm(data)
-        } catch(error) {
-            setError(error)
-        }
+    setLoading(true)
+    const getFilmById = async() =>{
+      try{
+        setError(true)
+        const data = await fetchFilmsId(filmId)
+        setFilm(data)
+      } catch(error) {
+        setError(error)
+      } finally{
+        setLoading(false)
+      }
     }
     getFilmById()
 }, [filmId])
 
 return (
     <>
-      {isLoading && <Loader />}
-      {isError && <Error errorName={errorName} />}
+      {loading && <Loader />}
       {film !== null && (
         <div>
-          <Link to={backLinkRef.current}>Go Back</Link>
-          <h1 className={css.filmMainTitle}>{film.title}</h1>
-          <div className={css.filmWrapper}>
+          <Link to={privLinkRef.current}>Go Back</Link>
+          <h1>{film.title}</h1>
+          <div>
             <img
               src={`https://image.tmdb.org/t/p/w500${film.backdrop_path}`}
               alt=""
             />
-            <div className={css.filmDescriptionWrapper}>
-              <p className={css.filmTitle}>{film.original_title}</p>
+            <div>
+              <p>{film.original_title}</p>
               <p>
                 <b>Overview</b>
               </p>
-              <p className={css.filmOverview}>{film.overview}</p>
-              <p className={css.filmRating}>
+              <p>{film.overview}</p>
+              <p>
                 <b>Popularity:</b> {film.popularity}
                 <b>Release date:</b> {film.release_date}
               </p>
             </div>
           </div>
-          <div className={css.filmAdditionalInfo}>
+          <div>
             <Link to="cast">Cast</Link>
             <Link to="reviews">Reviews</Link>
           </div>
-
-          <Suspense fallback={<Loader />}>
+          <Suspense fallback = {<Loader />}>
             <Routes>
               <Route path="cast" element={<MovieCast />} />
-              <Route path="reviews" element={<MovieReviews />} />
+              <Route path="reviews" element={<MovieReviews />} /> 
             </Routes>
           </Suspense>
         </div>

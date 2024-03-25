@@ -21,8 +21,8 @@ export const fetchFilmsId = async (filmId) =>{
     return data
 }
 
-export const fetchFilmCastId = async(castId) => {
-    const {data} = await axios.get(`movie/${castId}/credits`, {
+export const fetchFilmCastId = async(filmId) => {
+    const {data} = await axios.get(`movie/${filmId}/credits`, {
         headers: {
             Authorization: `Bearer ${API_basic}`
         }
@@ -30,8 +30,8 @@ export const fetchFilmCastId = async(castId) => {
     return data
 }
 
-export const fetchFilmReviews = async(revId) => {
-    const {data} = await axios.get(`movie/${revId}/reviews`, {
+export const fetchFilmReviews = async(filmId) => {
+    const {data} = await axios.get(`movie/${filmId}/reviews`, {
         headers: {
             Authorization: `Bearer ${API_basic}`
         }
