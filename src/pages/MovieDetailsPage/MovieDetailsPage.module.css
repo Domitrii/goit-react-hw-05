@@ -1,0 +1,37 @@
+.goBackBtn{
+    text-decoration: none;
+    color: #000;
+}
+
+.allCont{
+    display: flex;
+}
+
+.filmTitle{
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.movieFilm{
+    margin-left: 20px;
+}
+
+.popularityRelease{
+    display: flex;
+    flex-direction: column;
+}
+
+.mainDetailsBlock{
+    padding-top: 20px;
+}
+
+.castRev{
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.castRevItem{
+    text-decoration: none;
+    color: #000;
+}

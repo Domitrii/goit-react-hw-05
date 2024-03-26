@@ -2,6 +2,7 @@ import { Suspense, lazy, useEffect, useRef, useState } from "react"
 import { Link, Route, Routes, useLocation, useParams } from "react-router-dom"
 import { fetchFilmsId } from "../../components/APIService/APIService"
 import Loader from "../../components/Loader/Loader"
+import css from './MovieDetailsPage.module.css'
 
 const MovieCast = lazy(() => import("../../components/MovieCast/MovieCast"));
 const MovieReviews = lazy(() => import("../../components/MovieReviews/MovieReviews"))
@@ -31,33 +32,38 @@ useEffect(() => {
     getFilmById()
 }, [filmId])
 
+const percentage = (votes) => {
+    return votes.toFixed(1)*10
+}
+
 return (
     <>
       {loading && <Loader />}
       {film !== null && (
-        <div>
-          <Link to={privLinkRef.current}>Go Back</Link>
+        <div className={css.mainDetailsBlock}>
+          <Link to={privLinkRef.current} className={css.goBackBtn}>Go Back</Link>
           <h1>{film.title}</h1>
-          <div>
+          <div className={css.allCont}>
             <img
               src={`https://image.tmdb.org/t/p/w500${film.backdrop_path}`}
               alt=""
             />
-            <div>
-              <p>{film.original_title}</p>
+            <div className={css.movieFilm}>
+              <p className={css.filmTitle}>{film.original_title}</p>
+              <p>Vote: {percentage(film.vote_average)}%</p>
               <p>
                 <b>Overview</b>
               </p>
               <p>{film.overview}</p>
-              <p>
+              <p className={css.popularityRelease}>
                 <b>Popularity:</b> {film.popularity}
                 <b>Release date:</b> {film.release_date}
               </p>
             </div>
           </div>
-          <div>
-            <Link to="cast">Cast</Link>
-            <Link to="reviews">Reviews</Link>
+          <div className={css.castRev}>
+            <Link className={css.castRevItem} to="cast">Cast</Link>
+            <Link className={css.castRevItem} to="reviews">Reviews</Link>
           </div>
           <Suspense fallback = {<Loader />}>
             <Routes>
