@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { fetchFilms } from '../../components/APIService/APIService';
 import MovieList from '../../components/MovieList/MovieList';
 import Loader from '../../components/Loader/Loader';
+import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 const buildLinkClass = ({ isActive }) => {
  return clsx(css.link, isActive && css.active);
@@ -18,7 +19,7 @@ const HomePage = () => {
     setLoader(true)
     const getFilms = async() =>{
       try{
-        setError(true)
+        setError(false)
         const {results} = await fetchFilms()
         setFilms(results)
       } catch(error) {
@@ -35,6 +36,7 @@ const HomePage = () => {
  return (
     <>
     {loader && <Loader />}
+    {error && <NotFoundPage />}
      <h1>Tranding today</h1>
      {<MovieList films={films} />}
    </>

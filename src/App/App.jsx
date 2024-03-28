@@ -2,13 +2,11 @@ import { Route, Routes } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import { Navigation } from "../components/Navigation/Navigation";
 import Loader from "../components/Loader/Loader";
-import MoviesPage from "../pages/MoviesPage/MoviesPage";
 
 const HomePage = lazy(() => import("../pages/HomePage/HomePage"));
-
-const MovieDetailsPage = lazy(() =>
-  import("../pages/MovieDetailsPage/MovieDetailsPage")
-);
+const MoviesPage = lazy(() => import("../pages/MoviesPage/MoviesPage"))
+const MovieDetailsPage = lazy(() => import("../pages/MovieDetailsPage/MovieDetailsPage"));
+const NotFoundPage = lazy(() => import ("../pages/NotFoundPage/NotFoundPage"))
 
 function App() {
   return (
@@ -19,6 +17,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/movies" element={<MoviesPage />} />
           <Route path="/movies/:filmId/*" element={<MovieDetailsPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Suspense>
     </>
