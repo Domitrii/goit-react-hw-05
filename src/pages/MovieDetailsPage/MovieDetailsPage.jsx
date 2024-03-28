@@ -1,6 +1,6 @@
 // MovieDetailsPage.js
-import { Suspense, lazy, useEffect, useState } from "react";
-import { Link, Route, Routes, useParams } from "react-router-dom";
+import { Suspense, lazy, useEffect, useRef, useState } from "react";
+import { Link, Route, Routes, useLocation, useParams } from "react-router-dom";
 import { fetchFilmsId } from "../../components/APIService/APIService";
 import Loader from "../../components/Loader/Loader";
 import css from './MovieDetailsPage.module.css';
@@ -10,11 +10,13 @@ const MovieCast = lazy(() => import("../../components/MovieCast/MovieCast"));
 const MovieReviews = lazy(() => import("../../components/MovieReviews/MovieReviews"));
 
 function MovieDetailsPage() {
-    const {filmId} = useParams();
+    const { filmId } = useParams();
 
     const [film, setFilm] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
+    const location = useLocation();
+    const privLinkRef = useRef(location.state ?? '/movies');
 
     useEffect(() => {
         setLoading(true);
@@ -23,7 +25,7 @@ function MovieDetailsPage() {
                 setError(false);
                 const data = await fetchFilmsId(filmId);
                 setFilm(data);
-            } catch(error) {
+            } catch (error) {
                 setError(true);
             } finally {
                 setLoading(false);
@@ -42,7 +44,7 @@ function MovieDetailsPage() {
             {error && <NotFoundPage />}
             {film !== null && (
                 <div className={css.mainDetailsBlock}>
-                    <Link to="/movies" className={css.goBackBtn}>Go Back</Link>
+                    <Link to={privLinkRef.current} className={css.goBackBtn}>Go Back</Link>
                     <h1>{film.title}</h1>
                     <div className={css.allCont}>
                         <img src={`https://image.tmdb.org/t/p/w500${film.backdrop_path}`} alt="" />
